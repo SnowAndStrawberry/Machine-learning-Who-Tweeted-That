@@ -1,0 +1,296 @@
+# COMP90051 Project 1 source code
+# For Team 192
+
+# CREDIT: using spacy's github list https://github.com/explosion/spaCy/blob/master/spacy/lang/tokenizer_exceptions.py
+emoticons = set(
+    r"""
+:)
+:-)
+:))
+:-))
+:)))
+:-)))
+(:
+(-:
+=)
+(=
+")
+:]
+:-]
+[:
+[-:
+:o)
+(o:
+:}
+:-}
+8)
+8-)
+(-8
+;)
+;-)
+(;
+(-;
+:(
+:-(
+:((
+:-((
+:(((
+:-(((
+):
+)-:
+=(
+>:(
+:')
+:'-)
+:'(
+:'-(
+:/
+:-/
+=/
+=|
+:|
+:-|
+:1
+:P
+:-P
+:p
+:-p
+:O
+:-O
+:o
+:-o
+:0
+:-0
+:()
+>:o
+:*
+:-*
+:3
+:-3
+=3
+:>
+:->
+:X
+:-X
+:x
+:-x
+:D
+:-D
+;D
+;-D
+=D
+xD
+XD
+xDD
+XDD
+8D
+8-D
+^_^
+^__^
+^___^
+>.<
+>.>
+<.<
+._.
+;_;
+-_-
+-__-
+v.v
+V.V
+v_v
+V_V
+o_o
+o_O
+O_o
+O_O
+0_o
+o_0
+0_0
+o.O
+O.o
+O.O
+o.o
+0.0
+o.0
+0.o
+@_@
+<3
+<33
+<333
+</3
+(^_^)
+(-_-)
+(._.)
+(>_<)
+(*_*)
+(¬_¬)
+ಠ_ಠ
+ಠ︵ಠ
+(ಠ_ಠ)
+¯\(ツ)/¯
+(╯°□°）╯︵┻━┻
+><(((*>
+""".split()
+)
+
+
+stop_words_modified = set(['give',
+ 'while',
+ 'ca',
+ 'most',
+ 'noone',
+ 'become',
+ 'by',
+ 'your',
+ 'are',
+ 'from',
+ 'who',
+ 'via',
+ 'my',
+ 'he',
+ 'of',
+ 'never',
+ 'the',
+ 'off',
+ 'then',
+ '’re',
+ '‘ve',
+ 'where',
+ 'does',
+ 'those',
+ 'might',
+ 'yours',
+ 'see',
+ "'ll",
+ 'one',
+ 'onto',
+ 'all',
+ 'her',
+ 'since',
+ 'will',
+ 'for',
+ 'its',
+ 'which',
+ 'everyone',
+ 'some',
+ 'others',
+ 'fifty',
+ 'him',
+ 'us',
+ 'below',
+ 'in',
+ 'only',
+ 'and',
+ 'doing',
+ 'these',
+ 'whom',
+ 'take',
+ 'least',
+ 'on',
+ 'ever',
+ 'them',
+ 'thru',
+ 'also',
+ 'each',
+ 'using',
+ 'than',
+ 'over',
+ 'yet',
+ 'may',
+ 'no',
+ 'am',
+ 'cannot',
+ 'seems',
+ 'often',
+ 'with',
+ 'make',
+ 'this',
+ 'upon',
+ 'whose',
+ 'own',
+ 'get',
+ 'ten',
+ 'herself',
+ 'say',
+ 'back',
+ 'go',
+ "'m",
+ 'that',
+ 'two',
+ 'our',
+ 'a',
+ 'once',
+ 'we',
+ 'it',
+ "'s",
+ 'if',
+ 'what',
+ 'put',
+ 'after',
+ 'four',
+ 'me',
+ 'was',
+ 'could',
+ 'himself',
+ 'they',
+ 'can',
+ 'out',
+ 'you',
+ 'into',
+ 'did',
+ 'at',
+ 'ours',
+ 'not',
+ 'else',
+ 'had',
+ 'being',
+ 'even',
+ "'d",
+ 'has',
+ 'an',
+ 'few',
+ 'have',
+ '’ll',
+ 'latter',
+ 'more',
+ 'she',
+ 'nor',
+ 'any',
+ "n't",
+ 'but',
+ 'their',
+ 'been',
+ 'here',
+ 'just',
+ 'hers',
+ 'until',
+ 'should',
+ 'such',
+ 'per',
+ 'as',
+ 'move',
+ 'there',
+ 'be',
+ 'i',
+ 'when',
+ 'his',
+ 'used',
+ 'now',
+ 'do',
+ 'too',
+ 'is',
+ 'without',
+ 'much',
+ 'how',
+ 'why',
+ 'less',
+ 'must',
+ 'so',
+ 'were',
+ 'would',
+ 'yourself',
+ 'to',
+ 'none',
+ 'every',
+ 'somewhere']
+)
